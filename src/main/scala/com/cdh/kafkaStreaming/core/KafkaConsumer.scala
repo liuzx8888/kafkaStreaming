@@ -18,7 +18,7 @@ object KafkaConsumer {
     //刷新时间设置为1秒
     val streamingContext = new StreamingContext(conf, Seconds(5))
     try {
-      val kafkaParams = KakfaUtil.apply.getKafkaProperties()
+      val kafkaParams = KakfaUtil.apply.getKafkaProperties
       //print("kafkaParams:"+kafkaParams  +kafkaParams.getClass)
       val topics = Array("THIS_REPL")
       val stream = KafkaUtils.createDirectStream[String, String](
@@ -26,6 +26,7 @@ object KafkaConsumer {
         PreferConsistent,
         Subscribe[String, String](topics, kafkaParams))
       stream.map(record => (record.key, record.value))
+
 
       //打印获取到的数据，因为1秒刷新一次，所以数据长度大于0时才打印
       stream.foreachRDD(f => {
