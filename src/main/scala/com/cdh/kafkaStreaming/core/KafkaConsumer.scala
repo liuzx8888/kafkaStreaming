@@ -19,7 +19,6 @@ object KafkaConsumer {
     val streamingContext = new StreamingContext(conf, Seconds(5))
     try {
       val kafkaParams = KakfaUtil.apply.getKafkaProperties
-      //print("kafkaParams:"+kafkaParams  +kafkaParams.getClass)
       val topics = Array("THIS_REPL")
       val stream = KafkaUtils.createDirectStream[String, String](
         streamingContext,
@@ -31,7 +30,7 @@ object KafkaConsumer {
       //打印获取到的数据，因为1秒刷新一次，所以数据长度大于0时才打印
       stream.foreachRDD(f => {
         if (f.count > 0)
-          f.foreach(f => println(f.value()))
+          f.foreach(f => println(f.key,f.value))
       })
       streamingContext.start();
       streamingContext.awaitTermination();
